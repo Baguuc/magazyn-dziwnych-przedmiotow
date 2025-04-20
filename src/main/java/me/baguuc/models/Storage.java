@@ -13,7 +13,7 @@ public class Storage {
     private float maxTotalWeight;
     private float currentTotalWeight;
 
-    public Storage(int capacity, int maxTotalWeight) {
+    public Storage(int capacity, float maxTotalWeight) {
         this.capacity = capacity;
         this.maxTotalWeight = maxTotalWeight;
 
@@ -33,7 +33,7 @@ public class Storage {
 
         this.items.add(item);
         this.currentItemCount++;
-        this.currentTotalWeight += 1;
+        this.currentTotalWeight += item.weightKg;
     }
 
     public void printAll() {
