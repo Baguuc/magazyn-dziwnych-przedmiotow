@@ -3,10 +3,10 @@ package me.baguuc.models;
 import com.google.gson.Gson;
 
 public class Item {
-    private String name;
-    private float weightKg;
-    private int weirdnessLevel;
-    private boolean isSensitive;
+    public String name;
+    public float weightKg;
+    public int weirdnessLevel;
+    public boolean isSensitive;
 
     public Item(String name, float weightKg, int weirdnessLevel, boolean isSensitive) {
         this.name = name;
