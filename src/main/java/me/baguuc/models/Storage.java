@@ -1,5 +1,6 @@
 package me.baguuc.models;
 
+import me.baguuc.errors.ExceptionCaseUnfulfilledException;
 import me.baguuc.errors.MaxCapacityReachedException;
 import me.baguuc.errors.MaxWeightReachedException;
 
@@ -22,7 +23,7 @@ public class Storage {
         this.currentTotalWeight = 0;
     }
 
-    public void addItem(Item item) throws MaxCapacityReachedException, MaxWeightReachedException {
+    public boolean addItem(Item item) throws MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
         if(this.currentItemCount == capacity) {
             throw new MaxCapacityReachedException();
         }
@@ -31,9 +32,17 @@ public class Storage {
             throw new MaxWeightReachedException();
         }
 
+        if(item.isSensitive && item.weirdnessLevel == 7) {
+            if(this.capacity / 2 <= this.currentItemCount) {
+                throw new ExceptionCaseUnfulfilledException();
+            }
+        }
+
         this.items.add(item);
         this.currentItemCount++;
         this.currentTotalWeight += item.weightKg;
+
+        return true;
     }
 
     public void removeItem(String name) {

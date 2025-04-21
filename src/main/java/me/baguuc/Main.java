@@ -37,6 +37,8 @@ public class Main {
                 System.out.println("Nie można dodać: wypełniono już cały magazyn.");
             } catch (MaxWeightReachedException ex) {
                 System.out.println("Nie można dodać: magazyn nie może utrzymać już więcej wagi.");
+            } catch (ExceptionCaseUnfulfilledException ex) {
+                System.out.println("Nie można dodać: Zbyt ryzykowny przedmiot (delikatny i dziwny na poziomie 7) przy obecnym zapełnieniu.");
             }
             System.out.println();
         }
@@ -73,7 +75,8 @@ public class Main {
         MaxCapacityReachedException,
         MaxWeightReachedException,
         CurrentStorageUninitializedException,
-        StorageNotFoundException
+        StorageNotFoundException,
+        ExceptionCaseUnfulfilledException
     {
         switch(s) {
             case "stworz": create(); break;
@@ -97,7 +100,7 @@ public class Main {
         storageManager.setCurrentStorage(name);
     }
 
-    private static void add() throws CurrentStorageUninitializedException, MaxCapacityReachedException, MaxWeightReachedException {
+    private static void add() throws CurrentStorageUninitializedException, MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
         String name = Input.inputString("Podaj nazwe: ");
         float weight = Input.inputFloat("Podaj wage: ");
         int level = Input.inputInteger("Podaj poziom dziwności: ");
