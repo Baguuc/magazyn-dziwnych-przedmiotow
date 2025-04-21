@@ -68,6 +68,7 @@ public class Main {
         System.out.println("stworz - tworzy magazyn");
         System.out.println("wybierz - wybiera magazyn");
         System.out.println("dodaj - dodaje przedmiot do magazynu");
+        System.out.println("usun - usuwa przedmiot z magazynu");
     }
 
     private static void execute(String s)
@@ -82,6 +83,7 @@ public class Main {
             case "stworz": create(); break;
             case "wybierz": select(); break;
             case "dodaj": add(); break;
+            case "usun": delete(); break;
             default: return;
         }
     }
@@ -108,5 +110,11 @@ public class Main {
 
         Item item = new Item(name, weight, level, isSensitive);
         storageManager.getCurrentStorage().addItem(item);
+    }
+
+    private static void delete() throws CurrentStorageUninitializedException {
+        String name = Input.inputString("Podaj nazwe przedmiotu do usunięcia: ");
+
+        storageManager.getCurrentStorage().removeItem(name);
     }
 }
