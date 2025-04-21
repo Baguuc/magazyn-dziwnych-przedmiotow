@@ -67,8 +67,9 @@ public class Main {
         System.out.println("Oto komendy magazynu:");
         System.out.println("stworz - tworzy magazyn");
         System.out.println("wybierz - wybiera magazyn");
-        System.out.println("dodaj - dodaje przedmiot do magazynu");
-        System.out.println("usun - usuwa przedmiot z magazynu");
+        System.out.println("dodaj - dodaje przedmiot do wybranego magazynu");
+        System.out.println("usun - usuwa pierwszy napotkany przedmiot o podanej nazwie z wybranego magazynu");
+        System.out.println("wypisz_wszystkie - wypisuje wszystkie przedmioty z wybranego magazynu");
     }
 
     private static void execute(String s)
@@ -84,6 +85,7 @@ public class Main {
             case "wybierz": select(); break;
             case "dodaj": add(); break;
             case "usun": delete(); break;
+            case "wypisz_wszystkie": printAll(); break;
             default: return;
         }
     }
@@ -116,5 +118,9 @@ public class Main {
         String name = Input.inputString("Podaj nazwe przedmiotu do usunięcia: ");
 
         storageManager.getCurrentStorage().removeItem(name);
+    }
+
+    private static void printAll() throws CurrentStorageUninitializedException {
+        storageManager.getCurrentStorage().printAll();
     }
 }
