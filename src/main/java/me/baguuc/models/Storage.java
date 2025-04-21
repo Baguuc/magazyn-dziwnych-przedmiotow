@@ -8,10 +8,10 @@ import java.util.List;
 
 public class Storage {
     private List<Item> items;
-    private int capacity;
-    private int currentItemCount;
-    private float maxTotalWeight;
-    private float currentTotalWeight;
+    public int capacity;
+    public int currentItemCount;
+    public float maxTotalWeight;
+    public float currentTotalWeight;
 
     public Storage(int capacity, float maxTotalWeight) {
         this.capacity = capacity;

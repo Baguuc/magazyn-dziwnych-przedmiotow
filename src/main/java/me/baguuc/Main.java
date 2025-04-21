@@ -7,6 +7,7 @@ import me.baguuc.util.Input;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
     private static StorageManager storageManager = new StorageManager();
@@ -14,54 +15,95 @@ public class Main {
     public static void main(String[] args) throws StorageNotFoundException {
         System.out.println("Witaj w magazynie dziwnych przedmiotów");
 
-        if(storageManager.getStorageCount() == 0) {
-            createStorage();
-            storageManager.setCurrentStorage("master");
-        }
-
-        printStorageCommands();
-
         while(true) {
+            // czyszczenie konsoli (komenda clear w unix lub cls w dos)
+            System.out.print("\033[H\033[2J");
+            System.out.flush();
+
+            printStorageCommands();
+            System.out.println();
+            printStorages();
+
             String input = Input.inputString("$ ");
-            execute(input);
+
+            System.out.println();
+            try {
+                execute(input);
+            } catch (CurrentStorageUninitializedException ex) {
+                System.out.println("Nie wybrano jeszcze żadnego magazynu.");
+            } catch(StorageNotFoundException ex) {
+                System.out.println("Nie znaleziono magazynu.");
+            } catch (MaxCapacityReachedException ex) {
+                System.out.println("Nie można dodać: wypełniono już cały magazyn.");
+            } catch (MaxWeightReachedException ex) {
+                System.out.println("Nie można dodać: magazyn nie może utrzymać już więcej wagi.");
+            }
+            System.out.println();
         }
     }
 
-    private static void createStorage() {
-        System.out.println("Wygląda na to, że nie masz jeszcze magazynu. Stwórzmy go teraz:");
-        int capacity = Input.inputInteger("Podaj pojemność magazynu: ");
-        float maxTotalWeight = Input.inputFloat("Podaj maksymalną wagę w kilogramach którą magazyn może przetrzymać: ");
+    private static void printStorages() {
+        System.out.println("Masz aktualnie " + storageManager.getStorageCount() + " magazynów.");
 
-        storageManager.addStorage("master", new Storage(capacity, maxTotalWeight));
+        if(storageManager.getStorageCount() > 0) {
+            System.out.println();
+            System.out.println("Twoje magazyny:");
+
+            for(Map.Entry<String, Storage> entry : storageManager.getStorages()) {
+                String name = entry.getKey();
+                Storage storage = entry.getValue();
+
+                System.out.println(name + ":");
+                System.out.println("  zapełnienie: " + storage.currentItemCount + "/" + storage.capacity);
+                System.out.println("  przechowywana waga: " + storage.currentTotalWeight + "/" + storage.maxTotalWeight);
+            }
+            System.out.println();
+        }
     }
 
     private static void printStorageCommands() {
         System.out.println("Oto komendy magazynu:");
+        System.out.println("stworz - tworzy magazyn");
+        System.out.println("wybierz - wybiera magazyn");
         System.out.println("dodaj - dodaje przedmiot do magazynu");
     }
 
-    private static void execute(String s) {
+    private static void execute(String s)
+    throws
+        MaxCapacityReachedException,
+        MaxWeightReachedException,
+        CurrentStorageUninitializedException,
+        StorageNotFoundException
+    {
         switch(s) {
+            case "stworz": create(); break;
+            case "wybierz": select(); break;
             case "dodaj": add(); break;
             default: return;
         }
     }
 
-    private static void add() {
+    private static void create() {
+        String name = Input.inputString("Podaj nazwe magazynu (bedzie używana jako identyfikator w poleceniu \"wybierz\"): ");
+        int capacity = Input.inputInteger("Podaj pojemność magazynu: ");
+        float maxTotalWeight = Input.inputFloat("Podaj maksymalną wagę w kilogramach którą magazyn może przetrzymać: ");
+
+        storageManager.addStorage(name, new Storage(capacity, maxTotalWeight));
+    }
+
+    private static void select() throws StorageNotFoundException {
+        String name = Input.inputString("Podaj nazwe magazynu który chcesz wybrać: ");
+
+        storageManager.setCurrentStorage(name);
+    }
+
+    private static void add() throws CurrentStorageUninitializedException, MaxCapacityReachedException, MaxWeightReachedException {
         String name = Input.inputString("Podaj nazwe: ");
         float weight = Input.inputFloat("Podaj wage: ");
         int level = Input.inputInteger("Podaj poziom dziwności: ");
         boolean isSensitive = Input.inputBoolean("Podaj czy przedmiot jest delikatny (true/false): ");
 
-        try {
-            Item item = new Item(name, weight, level, isSensitive);
-            storageManager.getCurrentStorage().addItem(item);
-        } catch (CurrentStorageUninitializedException ex) {
-            System.out.println("Wystąbił błąd! Nie wybrano jeszcze żadnego magazynu.");
-        } catch (MaxCapacityReachedException ex) {
-            System.out.println("Nie można dodać: wypełniono cały magazyn.");
-        } catch (MaxWeightReachedException ex) {
-            System.out.println("Nie można dodać: magazyn nie może utrzymać już więcej wagi.");
-        }
+        Item item = new Item(name, weight, level, isSensitive);
+        storageManager.getCurrentStorage().addItem(item);
     }
 }

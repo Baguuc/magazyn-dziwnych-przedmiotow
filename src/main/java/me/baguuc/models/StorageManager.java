@@ -5,6 +5,7 @@ import me.baguuc.errors.StorageNotFoundException;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class StorageManager {
     public Map<String, Storage> storages;
@@ -15,7 +16,11 @@ public class StorageManager {
     }
 
     public int getStorageCount() {
-        return this.storages.keySet().size();
+        return this.storages.size();
+    }
+
+    public Set<Map.Entry<String, Storage>> getStorages() {
+        return this.storages.entrySet();
     }
 
     public void addStorage(String name, Storage storage) {
