@@ -70,7 +70,8 @@ public class Main {
         System.out.println("dodaj - dodaje przedmiot do wybranego magazynu");
         System.out.println("usun - usuwa pierwszy napotkany przedmiot o podanej nazwie z wybranego magazynu");
         System.out.println("wypisz_wszystkie - wypisuje wszystkie przedmioty z wybranego magazynu");
-        System.out.println("wypisz_delikatne_lub_ciezkie - wypisuje wszystkie przedmioty które są delikatne lub cięższe niż podany próg wagowy");
+        System.out.println("wypisz_delikatne_lub_ciezkie - wypisuje wszystkie przedmioty które są delikatne lub cięższe niż podany próg wagowy z wybranego magazynu");
+        System.out.println("wypisz_srednia_dziwnosc - oblicza i wypisuje średni poziom dziwności przedmiotów z wybranego magazynu");
     }
 
     private static void execute(String s)
@@ -88,6 +89,7 @@ public class Main {
             case "usun": delete(); break;
             case "wypisz_wszystkie": printAll(); break;
             case "wypisz_delikatne_lub_ciezkie": printSensitiveOrHeavy(); break;
+            case "wypisz_srednia_dziwnosc": printMeanWeirdnessLevel(); break;
             default: return;
         }
     }
@@ -130,5 +132,9 @@ public class Main {
         float minWeight = Input.inputFloat("Podaj próg wagowy (minimalną wagę): ");
 
         storageManager.getCurrentStorage().printSensitiveOrHeavy(minWeight);
+    }
+
+    private static void printMeanWeirdnessLevel() throws CurrentStorageUninitializedException {
+        System.out.println(storageManager.getCurrentStorage().calculateMeanWeirdnessLevel());
     }
 }
