@@ -47,6 +47,14 @@ public class Storage {
         }
     }
 
+    public void printSensitiveOrHeavy(float minWeight) {
+        for(Item item : this.items) {
+            if(item.isSensitive || item.weightKg > minWeight) {
+                System.out.println(item.description());
+            }
+        }
+    }
+
     public void printAll() {
         for(Item item : this.items) {
             System.out.println(item.description());
