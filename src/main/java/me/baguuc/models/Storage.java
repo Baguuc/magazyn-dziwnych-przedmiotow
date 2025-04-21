@@ -36,6 +36,17 @@ public class Storage {
         this.currentTotalWeight += item.weightKg;
     }
 
+    public void removeItem(String name) {
+        int i;
+
+        for(i = 0; i < this.items.size(); i++) {
+            if(this.items.get(i).name.equals(name)) {
+                this.items.remove(i);
+                break;
+            }
+        }
+    }
+
     public void printAll() {
         for(Item item : this.items) {
             System.out.println(item.description());
