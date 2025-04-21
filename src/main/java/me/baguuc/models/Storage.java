@@ -55,6 +55,19 @@ public class Storage {
         }
     }
 
+    public float calculateMeanWeirdnessLevel() {
+        int n = 0;
+        int totalWeirdness = 0;
+
+        for(Item item : this.items) {
+            n++;
+            totalWeirdness += item.weirdnessLevel;
+        }
+
+        // bez tego może wystąpić błąd dzielenia przez zero
+        return n == 0 ? 0 : (float) totalWeirdness / n;
+    }
+
     public void printAll() {
         for(Item item : this.items) {
             System.out.println(item.description());
