@@ -70,6 +70,7 @@ public class Main {
         System.out.println("dodaj - dodaje przedmiot do wybranego magazynu");
         System.out.println("usun - usuwa pierwszy napotkany przedmiot o podanej nazwie z wybranego magazynu");
         System.out.println("wypisz_wszystkie - wypisuje wszystkie przedmioty z wybranego magazynu");
+        System.out.println("wypisz_delikatne_lub_ciezkie - wypisuje wszystkie przedmioty które są delikatne lub cięższe niż podany próg wagowy");
     }
 
     private static void execute(String s)
@@ -86,6 +87,7 @@ public class Main {
             case "dodaj": add(); break;
             case "usun": delete(); break;
             case "wypisz_wszystkie": printAll(); break;
+            case "wypisz_delikatne_lub_ciezkie": printSensitiveOrHeavy(); break;
             default: return;
         }
     }
@@ -122,5 +124,11 @@ public class Main {
 
     private static void printAll() throws CurrentStorageUninitializedException {
         storageManager.getCurrentStorage().printAll();
+    }
+
+    private static void printSensitiveOrHeavy() throws CurrentStorageUninitializedException {
+        float minWeight = Input.inputFloat("Podaj próg wagowy (minimalną wagę): ");
+
+        storageManager.getCurrentStorage().printSensitiveOrHeavy(minWeight);
     }
 }
