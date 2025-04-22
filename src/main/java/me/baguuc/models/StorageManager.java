@@ -34,7 +34,10 @@ public class StorageManager extends HashMap<String, Storage> {
             .stream()
             .map(key -> {
                 try {
-                    return this.getSerialized(key);
+                    HashMap<String, Object> serialized = this.getSerialized(key);
+                    serialized.put("name", key);
+
+                    return serialized;
                 } catch (StorageNotFoundException e) {
                     // nigdy sie nie stanie, poprostu kompiler nie rozumie
                 }
