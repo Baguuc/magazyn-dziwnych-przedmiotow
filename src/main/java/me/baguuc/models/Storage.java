@@ -1,10 +1,13 @@
 package me.baguuc.models;
 
+import com.google.gson.Gson;
+import me.baguuc.Main;
 import me.baguuc.errors.ExceptionCaseUnfulfilledException;
 import me.baguuc.errors.MaxCapacityReachedException;
 import me.baguuc.errors.MaxWeightReachedException;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Storage {
@@ -21,6 +24,17 @@ public class Storage {
         this.items = new ArrayList<>();
         this.currentItemCount = 0;
         this.currentTotalWeight = 0;
+    }
+
+    public HashMap<String, Object> getSerialized() {
+        HashMap<String, Object> serialized = new HashMap<>();
+        serialized.put("items", this.items.stream().map(Item::getSerialized).toList());
+        serialized.put("capacity", this.capacity);
+        serialized.put("currentItemCount", this.currentItemCount);
+        serialized.put("maxTotalWeight", this.maxTotalWeight);
+        serialized.put("currentTotalWeight", this.currentTotalWeight);
+
+        return serialized;
     }
 
     public boolean addItem(Item item) throws MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
@@ -56,15 +70,14 @@ public class Storage {
         }
     }
 
-    public void printSensitiveOrHeavy(float minWeight) {
-        for(Item item : this.items) {
-            if(item.isSensitive || item.weightKg > minWeight) {
-                System.out.println(item.description());
-            }
-        }
+    public List<Item> getSensitiveOrHeavy(float minWeight) {
+        return this.items
+            .stream()
+            .filter(item -> item.isSensitive || item.weightKg > minWeight)
+            .toList();
     }
 
-    public float calculateMeanWeirdnessLevel() {
+    public float getMeanWeirdnessLevel() {
         int n = 0;
         int totalWeirdness = 0;
 
@@ -77,9 +90,10 @@ public class Storage {
         return n == 0 ? 0 : (float) totalWeirdness / n;
     }
 
-    public void printAll() {
-        for(Item item : this.items) {
-            System.out.println(item.description());
-        }
+    public List<HashMap<String, Object>> getAllItemDescriptions() {
+        return this.items
+            .stream()
+            .map(Item::getSerialized)
+            .toList();
     }
 }

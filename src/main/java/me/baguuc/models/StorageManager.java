@@ -1,47 +1,90 @@
 package me.baguuc.models;
 
-import me.baguuc.errors.CurrentStorageUninitializedException;
+import com.google.gson.Gson;
+import me.baguuc.Main;
+import me.baguuc.errors.ExceptionCaseUnfulfilledException;
+import me.baguuc.errors.MaxCapacityReachedException;
+import me.baguuc.errors.MaxWeightReachedException;
 import me.baguuc.errors.StorageNotFoundException;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.List;
+import java.util.Objects;
+import java.util.function.Function;
 
-public class StorageManager {
-    public Map<String, Storage> storages;
-    public String currentStorageName;
-
-    public StorageManager() {
-        this.storages = new HashMap<>();
-    }
-
-    public int getStorageCount() {
-        return this.storages.size();
-    }
-
-    public Set<Map.Entry<String, Storage>> getStorages() {
-        return this.storages.entrySet();
-    }
-
+public class StorageManager extends HashMap<String, Storage> {
     public void addStorage(String name, Storage storage) {
-        this.storages.put(name, storage);
+        this.put(name, storage);
     }
 
-    public Storage getCurrentStorage() throws CurrentStorageUninitializedException {
-        if(this.currentStorageName == null) {
-            throw new CurrentStorageUninitializedException();
-        }
-
-        // jedyna metoda która pozwala na zmienianie "currentStorage" nie pozwala zmienić go na klucz
-        // który nie istnieje, więc nie musimy już tego sprawdzać
-        return this.storages.get(this.currentStorageName);
-    }
-
-    public void setCurrentStorage(String name) throws StorageNotFoundException {
-        if(!this.storages.containsKey(name)) {
+    public HashMap<String, Object> getSerialized(String storageName) throws StorageNotFoundException {
+        if(!storageExists(storageName)) {
             throw new StorageNotFoundException();
         }
 
-        this.currentStorageName = name;
+        HashMap<String, Object> serialized = this.get(storageName).getSerialized();
+        serialized.put("name", storageName);
+
+        return serialized;
+    }
+
+    public List<HashMap<String, Object>> getAllSerialized() {
+        return this.keySet()
+            .stream()
+            .map(key -> {
+                try {
+                    return this.getSerialized(key);
+                } catch (StorageNotFoundException e) {
+                    // nigdy sie nie stanie, poprostu kompiler nie rozumie
+                }
+
+                return null;
+            })
+            .toList();
+    }
+
+    public void addItem(String storageName, Item item) throws StorageNotFoundException, MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
+        if(!storageExists(storageName)) {
+            throw new StorageNotFoundException();
+        }
+
+        this.get(storageName).addItem(item);
+    }
+
+    public void removeItem(String storageName, String itemName) throws StorageNotFoundException {
+        if(!storageExists(storageName)) {
+            throw new StorageNotFoundException();
+        }
+
+        this.get(storageName).removeItem(itemName);
+    }
+
+    public void getSensitiveOrHeavy(String storageName, float minWeight) throws StorageNotFoundException {
+        if(!storageExists(storageName)) {
+            throw new StorageNotFoundException();
+        }
+
+        this.get(storageName).getSensitiveOrHeavy(minWeight);
+    }
+
+    public void getMeanWeirdnessLevel(String storageName) throws StorageNotFoundException {
+        if(!storageExists(storageName)) {
+            throw new StorageNotFoundException();
+        }
+
+        this.get(storageName).getMeanWeirdnessLevel();
+    }
+
+    public void getAllDescriptions(String storageName, float minWeight) throws StorageNotFoundException {
+        if(!storageExists(storageName)) {
+            throw new StorageNotFoundException();
+        }
+
+        this.get(storageName).getAllItemDescriptions();
+    }
+
+    private boolean storageExists(String name) {
+        return this.containsKey(name);
     }
 }
