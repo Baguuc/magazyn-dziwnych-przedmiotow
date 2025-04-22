@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private List<Item> items;
+    public List<Item> items;
     public int capacity;
     public int currentItemCount;
     public float maxTotalWeight;
