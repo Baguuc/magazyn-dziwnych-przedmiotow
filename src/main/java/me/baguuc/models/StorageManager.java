@@ -63,12 +63,12 @@ public class StorageManager extends HashMap<String, Storage> {
         this.get(storageName).removeItem(itemName);
     }
 
-    public void getSensitiveOrHeavy(String storageName, float minWeight) throws StorageNotFoundException {
+    public List<Item> getSensitiveOrHeavy(String storageName, float minWeight) throws StorageNotFoundException {
         if(!storageExists(storageName)) {
             throw new StorageNotFoundException();
         }
 
-        this.get(storageName).getSensitiveOrHeavy(minWeight);
+        return this.get(storageName).getSensitiveOrHeavy(minWeight);
     }
 
     public void getMeanWeirdnessLevel(String storageName) throws StorageNotFoundException {
