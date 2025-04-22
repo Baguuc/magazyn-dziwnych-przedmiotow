@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 public class ItemPostController {
     @PostMapping(value = "/storages/{storageName}")
-    public ResponseEntity deleteItem(@PathVariable("storageName") String storageName, @RequestBody Body body) {
+    public ResponseEntity createItem(@PathVariable("storageName") String storageName, @RequestBody Body body) {
         Item newItem = new Item(
             body.name,
             body.weightKg,
