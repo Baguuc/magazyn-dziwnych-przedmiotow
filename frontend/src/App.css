@@ -4,8 +4,78 @@
   font-family: 'Roboto';
 }
 
-table, th, td {
+.modal-root {
+  width: 99%;
+  height: 98%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1000;
+  background-color: #0007;
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: fit-content;
+  height: fit-content;
+  position: fixed;
+  left: 50%;
+  right: 50%;
+  top: 50%;
+  bottom: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background-color: white;
+  padding: 8px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-evenly;
+  gap: 12px;
+}
+
+.modal-close-button {
+  width: 100%;
+}
+
+.storage-table, 
+.storage-table > thead > tr > th, 
+.storage-table > tbody > tr > td {
   border: solid 1px black;
   border-collapse: collapse;
   padding: 4px;
+}
+
+.storage-table-root {
+  width: fit-content;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 4px;
+}
+
+.storage-table {
+  width: 100%;
+}
+
+.storage-table-button {
+  width: 100%;
+}
+
+.storage-table-modal-form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 6px; 
+  justify-content: space-evenly;
+}
+
+.storage-table-modal-form-header {
+  font-size: 15px;
+}
+
+.storage-table-modal-form-row {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.storage-table-modal-form-row > label {
+  font-size: 12px;
 }
