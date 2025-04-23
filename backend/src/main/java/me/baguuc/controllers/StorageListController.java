@@ -2,11 +2,13 @@ package me.baguuc.controllers;
 
 import com.google.gson.Gson;
 import me.baguuc.Main;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class StorageListController {
     @GetMapping(value = "/storages", produces = "application/json")
