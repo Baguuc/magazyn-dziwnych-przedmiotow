@@ -1,9 +1,8 @@
 import './App.css';
+import StorageTable from "./StorageTable";
 
 function App() {
-  return (
-    <h1>Hello, World!</h1>
-  );
+  return <StorageTable />
 }
 
 export default App;
