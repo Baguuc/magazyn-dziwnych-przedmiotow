@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import StorageCreateForm from './StorageCreateForm';
 import ItemsTable from "../ItemsTable/ItemsTable";
+import HeavyItemsTable from "../ItemsTable/HeavyItemsTable";
 import { useModal } from '../Modal';
 
-function StorageRow({ data, showItemsTable }) {
+function StorageRow({ data, showItemsTable, showHeavyTable }) {
   function showMeanWeirdness() {
     fetch("http://localhost:8080/storages/master/items/weirdness")
       .then(response => response.json())
@@ -16,6 +17,7 @@ function StorageRow({ data, showItemsTable }) {
         <td>{data.currentItemCount} / {data.capacity}</td>
         <td>
           <button onClick={showItemsTable}>Zarządzaj zaopatrzeniem</button>
+          <button onClick={showHeavyTable}>Zobacz cięzkie przedmioty</button>
           <button onClick={showMeanWeirdness}>Wylicz średnią dziwności</button>
         </td>
     </tr>
@@ -24,6 +26,7 @@ function StorageRow({ data, showItemsTable }) {
 function StorageTable() {
     const [storages, setStorages] = useState([]);
     const [itemsTable, setItemsTable] = useState(undefined);
+    const [heavyTable, setHeavyTable] = useState(undefined);
     const [err, setErr] = useState(undefined);
 
     const [ modal, openModal, closeModal ] = useModal(<StorageCreateForm refreshStorages={refreshStorages} />);
@@ -45,7 +48,7 @@ function StorageTable() {
             .then(setStorages);
     }
     
-    if(storages && !err && !itemsTable) {
+    if(storages && !itemsTable && !heavyTable && !err) {
         // render storages
         return (<>
             {modal}
@@ -68,6 +71,9 @@ function StorageTable() {
                                 showItemsTable={() => {
                                   setItemsTable(<ItemsTable storageName={row.name} />);
                                 }}
+                                showHeavyTable={() => {
+                                  setHeavyTable(<HeavyItemsTable storageName={row.name} />);
+                                }}
                               />
                             );
                         })}
@@ -78,14 +84,19 @@ function StorageTable() {
                 }}>Dodaj magazyn</button>
             </div>
         </>);
-    } else if(storages && !itemsTable) {
-        // render error
-        return <p>{err}</p>
-    } else {
+    } else if(itemsTable) {
         return <div className="storage-table-root">
           <button onClick={() => setItemsTable(undefined)} style={{ width: "100%" }}>Wróć</button>
           {itemsTable}
         </div>;
+    } else if(heavyTable) {
+        return <div className="storage-table-root">
+          <button onClick={() => setHeavyTable(undefined)} style={{ width: "100%" }}>Wróć</button>
+          {heavyTable}
+        </div>;
+    } else if(err) {
+        // render error
+        return <p>{err}</p>
     }
 }
   
