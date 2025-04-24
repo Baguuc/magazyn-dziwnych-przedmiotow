@@ -37,9 +37,9 @@
   width: 100%;
 }
 
-.storage-table, 
-.storage-table > thead > tr > th, 
-.storage-table > tbody > tr > td {
+table 
+th, 
+td {
   border: solid 1px black;
   border-collapse: collapse;
   padding: 4px;
