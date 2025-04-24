@@ -4,11 +4,20 @@ import ItemsTable from "../ItemsTable/ItemsTable";
 import { useModal } from '../Modal';
 
 function StorageRow({ data, showItemsTable }) {
-    return <tr>
+  function showMeanWeirdness() {
+    fetch("http://localhost:8080/storages/master/items/weirdness")
+      .then(response => response.json())
+      .then(json => alert(json.mean))
+  }  
+
+  return <tr>
         <td>{data.name}</td>
         <td>{data.currentTotalWeight}kg / {data.maxTotalWeight}kg</td>
         <td>{data.currentItemCount} / {data.capacity}</td>
-        <td><button onClick={showItemsTable}>Zarządzaj zaopatrzeniem</button></td>
+        <td>
+          <button onClick={showItemsTable}>Zarządzaj zaopatrzeniem</button>
+          <button onClick={showMeanWeirdness}>Wylicz średnią dziwności</button>
+        </td>
     </tr>
 }
   
@@ -51,9 +60,17 @@ function StorageTable() {
                         </tr>
                     </thead>
                     <tbody>
-                        {storages.map((row, idx) => <StorageRow key={idx} data={row} showItemsTable={() => {
-                          setItemsTable(<ItemsTable storageName={row.name} />);
-                        }} />)}
+                        {storages.map((row, idx) => {
+                            return (
+                              <StorageRow 
+                                key={idx} 
+                                data={row}
+                                showItemsTable={() => {
+                                  setItemsTable(<ItemsTable storageName={row.name} />);
+                                }}
+                              />
+                            );
+                        })}
                     </tbody>
                 </table>
                 <button className="storage-table-button" onClick={() => {
