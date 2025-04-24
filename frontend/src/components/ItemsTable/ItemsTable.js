@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import ItemCreateForm from "./ItemCreateForm";
+import ItemDeleteForm from "./ItemDeleteForm";
 import { useModal } from "../Modal";
 
 function ItemRow({ data }) {
@@ -17,7 +18,8 @@ function ItemsTable({ storageName }) {
   const [items, setItems] = useState([]);
   const [err, setErr] = useState(undefined);
 
-  const [ modal, openModal, closeModal ] = useModal(<ItemCreateForm storageName={storageName} refreshItems={refreshItems} />);
+  const [ createModal, openCreateModal, closeCreateModal ] = useModal(<ItemCreateForm storageName={storageName} refreshItems={refreshItems} />);
+  const [ deleteModal, openDeleteModal, closeDeleteModal ] = useModal(<ItemDeleteForm storageName={storageName} refreshItems={refreshItems} />);
   
   useEffect(() => {
     refreshItems();
@@ -39,7 +41,8 @@ function ItemsTable({ storageName }) {
   if(items && !err) {
     return (
       <>
-        {modal}
+        {createModal}
+        {deleteModal}
         <table className="storage-table">
           <thead>
             <tr>
@@ -53,7 +56,8 @@ function ItemsTable({ storageName }) {
             {items.map((row, idx) => <ItemRow key={idx} data={row} />)}
           </tbody>
         </table>
-        <button onClick={() => { openModal(); }}>Dodaj przedmiot</button>
+        <button onClick={() => { openCreateModal(); }}>Dodaj przedmiot</button>
+        <button onClick={() => { openDeleteModal(); }}>Usuń przedmiot</button>
       </>
     );
   } else {

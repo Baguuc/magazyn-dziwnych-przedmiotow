@@ -5,8 +5,6 @@ function ItemCreateForm({ storageName, refreshItems }) {
     const [weight, setWeight] = useState(0);
     const [weirdnessLevel, setWeirdnessLevel] = useState(0);
     const [isSensitive, setIsSensitive] = useState(false);
-  
-    console.log("XD");
 
     function submitForm(event) {
         event.preventDefault(true);
