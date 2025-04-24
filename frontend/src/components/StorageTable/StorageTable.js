@@ -65,10 +65,10 @@ function StorageTable() {
         // render error
         return <p>{err}</p>
     } else {
-        return <>
+        return <div className="storage-table-root">
           <button onClick={() => setItemsTable(undefined)} style={{ width: "100%" }}>Wróć</button>
           {itemsTable}
-        </>;
+        </div>;
     }
 }
   

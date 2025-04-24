@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function StorageCreateForm({ refreshStorages, openModal, closeModal }) {
+function StorageCreateForm({ refreshStorages }) {
     const [name, setName] = useState("");
     const [capacity, setCapacity] = useState(0);
     const [maxTotalWeight, setMaxTotalWeight] = useState(0);

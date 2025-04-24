@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import ItemCreateForm from "./ItemCreateForm";
+import { useModal } from "../Modal";
 
 function ItemRow({ data }) {
   return (
@@ -15,6 +17,8 @@ function ItemsTable({ storageName }) {
   const [items, setItems] = useState([]);
   const [err, setErr] = useState(undefined);
 
+  const [ modal, openModal, closeModal ] = useModal(<ItemCreateForm storageName={storageName} refreshItems={refreshItems} />);
+  
   useEffect(() => {
     refreshItems();
   }, []);
@@ -34,19 +38,23 @@ function ItemsTable({ storageName }) {
 
   if(items && !err) {
     return (
-      <table className="storage-table">
-        <thead>
-          <tr>
-            <th>Nazwa</th>
-            <th>Waga (kg)</th>
-            <th>Poziom dziwności</th>
-            <th>Delikatne</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((row, idx) => <ItemRow key={idx} data={row} />)}
-        </tbody>
-      </table>
+      <>
+        {modal}
+        <table className="storage-table">
+          <thead>
+            <tr>
+              <th>Nazwa</th>
+              <th>Waga (kg)</th>
+              <th>Poziom dziwności</th>
+              <th>Delikatne</th>
+            </tr>
+          </thead>
+          <tbody>
+            {items.map((row, idx) => <ItemRow key={idx} data={row} />)}
+          </tbody>
+        </table>
+        <button onClick={() => { openModal(); }}>Dodaj przedmiot</button>
+      </>
     );
   } else {
     // render error
