@@ -41,6 +41,7 @@ function ItemCreateForm({ storageName, refreshItems }) {
                   }
                 });
               } else {
+                alert("Pomyślnie dodano przedmiot do magazynu.");
                 refreshItems();
               }
             });

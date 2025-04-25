@@ -59,7 +59,10 @@ function ItemsTable({ storageName }) {
           <tbody>
             {items.map((row, idx) => <ItemRow key={idx} data={row} deleteItem={() => {
               fetch(`http://localhost:8080/storages/${storageName}/${row.name}`, { method: "DELETE" })
-                .then(refreshItems);
+                .then(() => {
+                  alert("Usunięto wybrany przedmiot!");
+                  refreshItems();
+                });
             }} />)}
           </tbody>
         </table>

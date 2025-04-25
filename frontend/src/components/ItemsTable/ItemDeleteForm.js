@@ -7,7 +7,10 @@ function ItemDeleteForm({ storageName, refreshItems }) {
         event.preventDefault(true);
         
         fetch(`http://localhost:8080/storages/${storageName}/${name}`, { method: "DELETE" })
-            .then(refreshItems);
+            .then((response) => {
+              alert(`Usunięto przedmiot "${name}"!`)
+              refreshItems();
+            });
     }
 
     return <form className="table-modal-form" style={{ width: "200px" }} onSubmit={submitForm}>
