@@ -63,7 +63,7 @@ function ItemCreateForm({ storageName, refreshItems }) {
         </div>
         <div className="table-modal-form-row">
             <label htmlFor="is-sensitive">Delikatne</label>
-            <input type="text" name="is-sensitive" id="is-sensitive-input" onInput={(event) => setIsSensitive(event.target.value)} />
+            <input type="checkbox" name="is-sensitive" id="is-sensitive-input" onChange={(event) => setIsSensitive(event.target.checked)} />
         </div>
         <input type="submit" value="Stwórz" />
     </form>
