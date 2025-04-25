@@ -33,7 +33,7 @@ function StorageTable() {
     
     useEffect(() => {
        refreshStorages();
-    }, []);
+    }, [itemsTable, heavyTable]);
 
     function refreshStorages() {
         fetch("http://localhost:8080/storages")

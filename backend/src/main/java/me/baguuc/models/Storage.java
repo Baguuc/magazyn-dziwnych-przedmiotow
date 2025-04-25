@@ -65,8 +65,12 @@ public class Storage {
         int i;
 
         for(i = 0; i < this.items.size(); i++) {
-            if(this.items.get(i).name.equals(name)) {
+            Item item = this.items.get(i);
+            
+            if(item.name.equals(name)) {
                 this.items.remove(i);
+                this.currentTotalWeight -= item.weightKg;
+                this.currentItemCount--;
                 break;
             }
         }
