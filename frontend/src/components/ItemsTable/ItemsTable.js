@@ -3,13 +3,16 @@ import ItemCreateForm from "./ItemCreateForm";
 import ItemDeleteForm from "./ItemDeleteForm";
 import { useModal } from "../Modal";
 
-function ItemRow({ data }) {
+function ItemRow({ data, deleteItem }) {
   return (
     <tr>
       <td>{data.name}</td>
       <td>{data.weightKg}</td>
       <td>{data.weirdnessLevel}</td>
       <td>{data.isSensitive}</td>
+      <td>
+        <button onClick={deleteItem}>Usuń</button>
+      </td>
     </tr>
   );
 }
@@ -50,10 +53,14 @@ function ItemsTable({ storageName }) {
               <th>Waga (kg)</th>
               <th>Poziom dziwności</th>
               <th>Delikatne</th>
+              <th>Akcje</th>
             </tr>
           </thead>
           <tbody>
-            {items.map((row, idx) => <ItemRow key={idx} data={row} />)}
+            {items.map((row, idx) => <ItemRow key={idx} data={row} deleteItem={() => {
+              fetch(`http://localhost:8080/storages/${storageName}/${row.name}`, { method: "DELETE" })
+                .then(refreshItems);
+            }} />)}
           </tbody>
         </table>
         <button onClick={() => { openCreateModal(); }}>Dodaj przedmiot</button>
