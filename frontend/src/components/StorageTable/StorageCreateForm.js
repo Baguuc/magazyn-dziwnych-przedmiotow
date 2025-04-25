@@ -21,19 +21,19 @@ function StorageCreateForm({ refreshStorages }) {
             });
     }
 
-    return <form className="storage-table-modal-form" onSubmit={submitForm}>
-        <h1 className="storage-table-modal-form-header">Stwórz magazyn</h1>
-        <div className="storage-table-modal-form-row">
-            <label htmlFor="storage-name">Nazwa</label>
-            <input type="text" name="storage-name" id="storage-name-input" onInput={(event) => setName(event.target.value)} />
+    return <form className="table-modal-form" onSubmit={submitForm}>
+        <h1 className="table-modal-form-header">Stwórz magazyn</h1>
+        <div className="table-modal-form-row">
+            <label htmlFor="name">Nazwa</label>
+            <input type="text" name="name" id="name-input" onInput={(event) => setName(event.target.value)} />
         </div>
-        <div className="storage-table-modal-form-row">
-            <label htmlFor="storage-capacity">Pojemność</label>
-            <input type="text" name="storage-capacity" id="storage-capacity-input" onInput={(event) => setCapacity(event.target.value)} />
+        <div className="table-modal-form-row">
+            <label htmlFor="capacity">Pojemność</label>
+            <input type="text" name="capacity" id="capacity-input" onInput={(event) => setCapacity(event.target.value)} />
         </div>
-        <div className="storage-table-modal-form-row">
-            <label htmlFor="storage-max-weight">Maksymalna łączna waga</label>
-            <input type="text" name="storage-max-weight" id="storage-max-weight-input" onInput={(event) => setMaxTotalWeight(event.target.value)} />
+        <div className="table-modal-form-row">
+            <label htmlFor="max-weight">Maksymalna łączna waga</label>
+            <input type="text" name="max-weight" id="max-weight-input" onInput={(event) => setMaxTotalWeight(event.target.value)} />
         </div>
         <input type="submit" value="Stwórz" />
     </form>

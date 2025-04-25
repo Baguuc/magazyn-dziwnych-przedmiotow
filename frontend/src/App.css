@@ -60,22 +60,22 @@ td {
   width: 100%;
 }
 
-.storage-table-modal-form {
+.table-modal-form {
   display: flex;
   flex-flow: column nowrap;
-  gap: 6px; 
+  gap: 6px;
   justify-content: space-evenly;
 }
 
-.storage-table-modal-form-header {
+.table-modal-form-header {
   font-size: 15px;
 }
 
-.storage-table-modal-form-row {
+.table-modal-form-row {
   display: flex;
   flex-flow: column nowrap;
 }
 
-.storage-table-modal-form-row > label {
+.table-modal-form-row > label {
   font-size: 12px;
 }
