@@ -19,7 +19,7 @@ function ItemsHeavyTable({ storageName }) {
   
   useEffect(() => {
     refreshItems();
-  }, []);
+  }, [weight]);
 
   function refreshItems() {
       fetch(`http://localhost:8080/storages/${storageName}/items/heavy?weight=${weight}`)
@@ -34,13 +34,13 @@ function ItemsHeavyTable({ storageName }) {
         .then(setItems)
   }
 
+
+
   if(items && !err) {
     return (
       <>
-        <input placeholder="Minimalna waga" onInput={(event) => {
-          console.log(event.target.value);
+        <input placeholder="Minimalna waga" onChange={(event) => {
           setWeight(parseFloat(event.target.value));
-          refreshItems();
         }} />
         <table className="storage-table">
           <thead>

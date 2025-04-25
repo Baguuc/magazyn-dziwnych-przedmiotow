@@ -20,6 +20,7 @@ public class StorageItemsHeavyGetController {
         @PathVariable("storageName") String storageName,
         @RequestParam("weight") float weight
     ) {
+        System.out.println(weight);
         List<HashMap<String, Object>> serialized = null;
 
         try {
