@@ -2,9 +2,7 @@ package me.baguuc.models;
 
 import com.google.gson.Gson;
 import me.baguuc.Main;
-import me.baguuc.errors.ExceptionCaseUnfulfilledException;
-import me.baguuc.errors.MaxCapacityReachedException;
-import me.baguuc.errors.MaxWeightReachedException;
+import me.baguuc.errors.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,7 +35,11 @@ public class Storage {
         return serialized;
     }
 
-    public boolean addItem(Item item) throws MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
+    public boolean addItem(Item item) throws MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException, InvalidWeirdnessLevelException {
+        if(item.weirdnessLevel < 1 || item.weirdnessLevel > 10) {
+          throw new InvalidWeirdnessLevelException();
+        }
+        
         if(this.currentItemCount == capacity) {
             throw new MaxCapacityReachedException();
         }

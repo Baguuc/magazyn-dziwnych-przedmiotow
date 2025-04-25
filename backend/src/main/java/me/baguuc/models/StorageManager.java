@@ -2,10 +2,7 @@ package me.baguuc.models;
 
 import com.google.gson.Gson;
 import me.baguuc.Main;
-import me.baguuc.errors.ExceptionCaseUnfulfilledException;
-import me.baguuc.errors.MaxCapacityReachedException;
-import me.baguuc.errors.MaxWeightReachedException;
-import me.baguuc.errors.StorageNotFoundException;
+import me.baguuc.errors.*;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -47,7 +44,7 @@ public class StorageManager extends HashMap<String, Storage> {
             .toList();
     }
 
-    public void addItem(String storageName, Item item) throws StorageNotFoundException, MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException {
+    public void addItem(String storageName, Item item) throws StorageNotFoundException, MaxCapacityReachedException, MaxWeightReachedException, ExceptionCaseUnfulfilledException, InvalidWeirdnessLevelException {
         if(!storageExists(storageName)) {
             throw new StorageNotFoundException();
         }

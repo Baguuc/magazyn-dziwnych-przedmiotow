@@ -17,7 +17,33 @@ function ItemCreateForm({ storageName, refreshItems }) {
         };
 
         fetch(`http://localhost:8080/storages/${storageName}`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-            .then(refreshItems);
+            .then((response) => {
+              if(response.status !== 200) {
+                response.text().then((text) => {
+                  if(text === "EXCEPTION_CASE_UNFULFILLED") {
+                    alert("Nie spełniono specjalnego warunku!");
+                  }
+
+                  if(text === "INVALID_WEIRDNESS_LEVEL") {
+                    alert("Zły poziom dziwności. Musi być w zakresie 1-10.");
+                  }
+
+                  if(text === "MAX_CAPACITY_REACHED") {
+                    alert("Nie można dodać przedmiotu: magazyn jest pełny!");
+                  }
+                  
+                  if(text === "MAX_WEIGHT_REACHED") {
+                    alert("Nie można dodać przedmiotu: magazyn nie utrzyma więcej wagi!");
+                  }
+
+                  if(text === "STORAGE_NOT_FOUND") {
+                    alert("Nie znaleziono magazynu!");
+                  }
+                });
+              } else {
+                refreshItems();
+              }
+            });
     }
 
     return <form className="table-modal-form" style={{ width: "200px" }} onSubmit={submitForm}>

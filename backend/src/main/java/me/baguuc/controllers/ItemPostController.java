@@ -1,10 +1,7 @@
 package me.baguuc.controllers;
 
 import me.baguuc.Main;
-import me.baguuc.errors.ExceptionCaseUnfulfilledException;
-import me.baguuc.errors.MaxCapacityReachedException;
-import me.baguuc.errors.MaxWeightReachedException;
-import me.baguuc.errors.StorageNotFoundException;
+import me.baguuc.errors.*;
 import me.baguuc.models.Item;
 import me.baguuc.models.Storage;
 import org.springframework.http.HttpStatus;
@@ -26,7 +23,7 @@ public class ItemPostController {
         );
         try {
             Main.STORAGE_MANAGER.addItem(storageName, newItem);
-        } catch (StorageNotFoundException|MaxCapacityReachedException|MaxWeightReachedException|ExceptionCaseUnfulfilledException e) {
+        } catch (StorageNotFoundException|MaxCapacityReachedException|MaxWeightReachedException|ExceptionCaseUnfulfilledException|InvalidWeirdnessLevelException e) {
             return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(e.toString());

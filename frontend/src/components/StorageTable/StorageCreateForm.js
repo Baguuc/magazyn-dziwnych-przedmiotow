@@ -15,7 +15,10 @@ function StorageCreateForm({ refreshStorages }) {
         };
         console.log(data);
         fetch("http://localhost:8080/storages", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) })
-            .then(refreshStorages);
+            .then(() => {
+              alert("Pomyślnie stworzono magazyn.");
+              refreshStorages();
+            });
     }
 
     return <form className="storage-table-modal-form" onSubmit={submitForm}>
